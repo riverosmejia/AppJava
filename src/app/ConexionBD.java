@@ -17,7 +17,7 @@ public class ConexionBD {
             String contraseña = "123";
             conexion = DriverManager.getConnection(url, usuario, contraseña);
 
-            System.out.println("Conexión establecida correctamente");
+            //System.out.println("Conexión establecida correctamente :P");
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Error al establecer la conexión: " + e.getMessage());
         }
