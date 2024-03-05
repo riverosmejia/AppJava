@@ -4,6 +4,14 @@
  */
 package app;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import java.sql.DriverManager;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author riv
@@ -13,10 +21,105 @@ public class Panel1 extends javax.swing.JPanel {
     /**
      * Creates new form Panel1
      */
-    public Panel1() {
+    
+    private Connection con;
+    
+    public Panel1(Connection con1) {
         initComponents();
+        
+        this.con=con1;
+    }
+    
+    public javax.swing.JTable getVisor() {
+        return visor;
     }
 
+    public void Mostrar(String tabla){
+        
+        String url = "";
+            String usuario = "";
+            String contraseña = "";
+        try {
+            // Cargar el controlador JDBC
+            Class.forName("org.mariadb.jdbc.Driver");
+
+            // Establecer la conexión
+            url = "jdbc:mariadb://localhost:3306/qwerty";
+            usuario = "root";
+            contraseña = "123";
+            this.con = DriverManager.getConnection(url, usuario, contraseña);
+
+            //System.out.println("Conexión establecida correctamente :P");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Error al establecer la conexión: " + e.getMessage());
+        }
+        
+    
+        String sql = "SELECT * FROM " + "Conductores";
+        Statement st;
+        
+        System.out.println(sql);
+        
+        
+        DefaultTableModel model = new DefaultTableModel();
+        
+        model.addColumn("Cédula");
+        model.addColumn("Nombre");                
+        model.addColumn("Apellido(s)");        
+        model.addColumn("Celular");        
+        model.addColumn("Célular Adicional");
+        model.addColumn("Dirección de vivienda");        
+        model.addColumn("Turno");
+
+        visor.setModel(model);
+        
+        String[] datos = new String[7];
+        
+        try{
+            
+            if (!this.con.isClosed()) {
+                st = this.con.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+        // Resto del código...
+            } else {
+                System.err.println("Error: La conexión está cerrada.");
+            }
+            
+            System.out.println("---");
+            st = this.con.createStatement();
+            System.out.println("---");
+            ResultSet rs = st.executeQuery(sql);
+            System.out.println("---");
+            
+            System.out.println(rs);
+            
+            
+            while(rs.next()){
+                
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+                datos[5]=rs.getString(7);
+                datos[6]=rs.getString(6);
+                model.addRow(datos);
+                
+            }
+            
+            
+        }catch (SQLException ex) {
+            System.err.println("Error al ejecutar la consulta SQL:");
+            System.err.println("SQL State: " + ex.getSQLState());
+            System.err.println("Error Code: " + ex.getErrorCode());
+            System.err.println("Mensaje: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        
+
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,37 +129,45 @@ public class Panel1 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        visor = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 623, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        visor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(visor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 212, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTable visor;
     // End of variables declaration//GEN-END:variables
 }
