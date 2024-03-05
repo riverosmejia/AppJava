@@ -34,32 +34,10 @@ public class Panel1 extends javax.swing.JPanel {
         return visor;
     }
 
-    public void Mostrar(String tabla){
-        
-        String url = "";
-            String usuario = "";
-            String contraseña = "";
-        try {
-            // Cargar el controlador JDBC
-            Class.forName("org.mariadb.jdbc.Driver");
-
-            // Establecer la conexión
-            url = "jdbc:mariadb://localhost:3306/qwerty";
-            usuario = "root";
-            contraseña = "123";
-            this.con = DriverManager.getConnection(url, usuario, contraseña);
-
-            //System.out.println("Conexión establecida correctamente :P");
-        } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Error al establecer la conexión: " + e.getMessage());
-        }
-        
+    public void MostrarTable(String tabla){        
     
         String sql = "SELECT * FROM " + "Conductores";
         Statement st;
-        
-        System.out.println(sql);
-        
         
         DefaultTableModel model = new DefaultTableModel();
         
@@ -85,13 +63,13 @@ public class Panel1 extends javax.swing.JPanel {
                 System.err.println("Error: La conexión está cerrada.");
             }
             
-            System.out.println("---");
+            //System.out.println("---");
             st = this.con.createStatement();
-            System.out.println("---");
+            //System.out.println("---");
             ResultSet rs = st.executeQuery(sql);
-            System.out.println("---");
+            //System.out.println("---");
             
-            System.out.println(rs);
+            //System.out.println(rs);
             
             
             while(rs.next()){
@@ -131,6 +109,7 @@ public class Panel1 extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         visor = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -147,6 +126,8 @@ public class Panel1 extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(visor);
 
+        jButton1.setText("jButton1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -154,19 +135,27 @@ public class Panel1 extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(jButton1)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable visor;
     // End of variables declaration//GEN-END:variables

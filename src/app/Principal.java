@@ -1,35 +1,54 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package app;
 
-//import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.swing.JFrame;
-//import java.sql.SQLException;
-//import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 
-/**
- *
- * @author riv
- */
 public class Principal {
-    
+
     private Connection con;
-    
-    public Principal(Connection conecion){
+
+    public Principal() {
         
-        this.con=conecion;
+        // Cargar el controlador JDBC de MariaDB
+        try {
         
+            Class.forName("org.mariadb.jdbc.Driver");
+        
+        } catch (ClassNotFoundException e) {
+        
+            System.err.println("Error al cargar el controlador JDBC: " + e.getMessage());
+        
+        }
+
+        // Establecer la conexión en la clase Principal
+        this.con = establecerConexion();
     }
-    
+
+    private Connection establecerConexion() {
+        Connection conexion = null;
+        // Establece la conexión a la base de datos (reemplaza con tus detalles)
+        String url = "jdbc:mariadb://localhost:3306/qwerty";
+        String usuario = "root";
+        String contraseña = "123";
+
+        try {
+            conexion = DriverManager.getConnection(url, usuario, contraseña);
+        } catch (SQLException e) {
+            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
+        }
+
+        return conexion;
+    }
+
     public void Programa() {
         Panel1 panel = new Panel1(this.con);
-        panel.Mostrar("Conductores");
+        panel.MostrarTable("Conductores");
 
-        // Obtén el componente JTable del Panel1
-        javax.swing.JTable visor = panel.getVisor();
+        // Obtén el componente JTable directamente de Panel1
+        JTable visor = panel.getVisor();
 
         // Crea un JFrame y agrega el JTable
         JFrame frame = new JFrame("Vista de Conductores");
@@ -42,6 +61,10 @@ public class Principal {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    
+
+    public static void main(String[] args) {
+        // Crea una instancia de Principal y ejecuta el programa
+        Principal principal = new Principal();
+        principal.Programa();
+    }
 }
