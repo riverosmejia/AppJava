@@ -8,7 +8,7 @@ import javax.swing.JTable;
 
 public class Principal {
 
-    private Connection con;
+    private Connection con=null;
 
     public Principal() {
         
@@ -24,7 +24,9 @@ public class Principal {
         }
 
         // Establecer la conexión en la clase Principal
-        this.con = establecerConexion();
+        Conexion Con = new Conexion("jdbc:mariadb://localhost:3306/qwerty","root","123");
+        this.con=Con.getConexion();
+        System.out.println(this.con);
     }
 
     private Connection establecerConexion() {
@@ -45,6 +47,8 @@ public class Principal {
 
     public void Programa() {
         Panel1 panel = new Panel1(this.con);
+        Conexion Con = new Conexion("jdbc:mariadb://localhost:3306/qwerty","root","123");
+        
         panel.MostrarTable("Conductores");
 
         // Obtén el componente JTable directamente de Panel1

@@ -1,3 +1,5 @@
+package app;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -31,10 +33,24 @@ public class Conexion {
          this.contraseña = PS;
 
         try {
-            conexion = DriverManager.getConnection(url, usuario, contraseña);
+
+            this.conexion = DriverManager.getConnection(url, usuario, contraseña);
         } catch (SQLException e) {
+
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
+        
+    }
+    
+    public Connection getConexion(){
+        
+        return this.conexion;
+        
+    }
+    
+    public void setConexion(Connection con1){
+    
+        this.conexion=con1;
         
     }
     
