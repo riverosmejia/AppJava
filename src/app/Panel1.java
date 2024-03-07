@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import java.sql.DriverManager;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +24,8 @@ public class Panel1 extends javax.swing.JPanel {
      */
     
     private Connection con;
+    //private javax.swing.JTable visor; // Corregir aquí
+    private javax.swing.JFrame frame; // Corregir aquí
     
     public Panel1(Connection con1) {
         initComponents();
@@ -33,6 +36,11 @@ public class Panel1 extends javax.swing.JPanel {
     public javax.swing.JTable getVisor() {
         return visor;
     }
+    
+    public JFrame getFrame() {
+        return frame;
+    }
+    
 
     public void MostrarTable(String tabla){        
     
@@ -56,11 +64,14 @@ public class Panel1 extends javax.swing.JPanel {
         try{
             
             if (!this.con.isClosed()) {
+                
                 st = this.con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
-        // Resto del código...
+                
             } else {
+                
                 System.err.println("Error: La conexión está cerrada.");
+            
             }
             
             //System.out.println("---");

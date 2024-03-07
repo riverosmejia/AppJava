@@ -49,15 +49,19 @@ public class Principal {
 
         // Obtén el componente JTable directamente de Panel1
         JTable visor = panel.getVisor();
+        JFrame frame1 = panel.getFrame();
 
-        // Crea un JFrame y agrega el JTable
+        // Crea un JFrame y agrega el Panel1
         JFrame frame = new JFrame("Vista de Conductores");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(visor.getTableHeader(), java.awt.BorderLayout.PAGE_START);
         frame.getContentPane().add(visor, java.awt.BorderLayout.CENTER);
 
+        // Agrega el Panel1 directamente al contenido del JFrame
+        frame.getContentPane().add(panel, java.awt.BorderLayout.PAGE_END);
+
         // Configura el frame y hazlo visible
-        frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Muestra en pantalla completa
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
