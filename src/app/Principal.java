@@ -15,35 +15,28 @@ public class Principal {
         // Cargar el controlador JDBC de MariaDB
         try {
             Class.forName("org.mariadb.jdbc.Driver");
+            Conexion Con = new Conexion("jdbc:mariadb://localhost:3306/qwerty", "root", "123");
+            this.con = Con.getConexion();
+            if (this.con != null) {
+                //System.out.println("Conexión establecida: " + this.con);
+            } else {
+                System.err.println("Error: La conexión es nula.");
+            }
         } catch (ClassNotFoundException e) {
-            System.err.println("Error al cargar el controlador JDBC: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
 
         // Establecer la conexión en la clase Principal
         Conexion Con = new Conexion("jdbc:mariadb://localhost:3306/qwerty", "root", "123");
         this.con = Con.getConexion();
-        System.out.println(this.con);
-    }
-
-    private Connection establecerConexion() {
-        Connection conexion = null;
-        // Establece la conexión a la base de datos (reemplaza con tus detalles)
-        String url = "jdbc:mariadb://localhost:3306/qwerty";
-        String usuario = "root";
-        String contraseña = "123";
-
-        try {
-            conexion = DriverManager.getConnection(url, usuario, contraseña);
-        } catch (SQLException e) {
-            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
-        }
-
-        return conexion;
+        
     }
 
     public void Programa() {
-
+        
         FormularioAgregarCarro panelCarroA = new FormularioAgregarCarro(this.con);
+        
         Panel1 panel = new Panel1(this.con);
 
         //panel.MostrarTable("Conductores");
